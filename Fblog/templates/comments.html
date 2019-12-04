@@ -1,0 +1,134 @@
+    {% extends "bootstrap/base.html" %}
+    {% from "macro.html" import render_field %}
+    {% block styles %}
+
+    <link href="{{ url_for('static',filename='styles/bootstrap.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static',filename='styles/s2.css') }}" rel="stylesheet">
+    <link rel = "icon" href =  
+"/static/images/logo.png" 
+        type = "image/x-icon"> 
+        <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    {% endblock %}
+    {% block title %}Comments - Blogwoosh{% endblock %}
+
+    {% block navbar %}
+
+    <nav class="navbar navbar-inverse">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#" style="font-family: Times New Roman;color:black;font-size: 25px" onMouseOver="this.style.color='red'" onMouseOut="this.style.color='black'">BLOGWOOSH</a>
+        </div>
+        <ul class="nav navbar-nav">
+          <li class="active"><a href="/" style="font-size: 20px" onMouseOver="this.style.color='red'" onMouseOut="this.style.color='white'">Home</a></li>
+          <li><a href="{{url_for('About')}}" style="font-family: Times New Roman;color:black;font-size: 25px" onMouseOver="this.style.color='red'" onMouseOut="this.style.color='black'">About</a></li>
+          <li><a href="{{url_for('Contact')}}" style="font-family: Times New Roman;color:black;font-size: 25px" onMouseOver="this.style.color='red'" onMouseOut="this.style.color='black'">Contact</a></li>
+        </ul>
+        <form class="navbar-form navbar-left" action="/action_page.php" method="POST">
+          <div class="form-group">
+            <input type="text" class="form-control" placeholder="Search">
+          </div>
+          <button type="submit" class="btn btn-default">Submit</button>
+        </form>
+        <ul class="nav navbar-nav" id="hello">
+          {% if current_user.is_authenticated %}
+          <li><a href="{{url_for('new_post')}}" style="font-family: Times New Roman;color:black;font-size: 25px;" onMouseOver="this.style.color='red'" onMouseOut="this.style.color='black'">New Post</a></li>
+          <li><a href="{{url_for('Account')}}" style="font-family: Times New Roman;color:black;font-size: 25px" onMouseOver="this.style.color='red'" onMouseOut="this.style.color='black'">Account</a></li>
+          <li><a href="{{url_for('logout')}}" style="font-family: Times New Roman;color:black;font-size: 25px;" onMouseOver="this.style.color='red'" onMouseOut="this.style.color='black'">Logout</a></li>
+          {% else %}
+          <li><a href="/login" style="font-family: Times New Roman;color:black;font-size: 25px" onMouseOver="this.style.color='red'" onMouseOut="this.style.color='black'">Login</a></li>
+          <li><a href="/register" style="font-family: Times New Roman;color:black;font-size: 25px" onMouseOver="this.style.color='red'" onMouseOut="this.style.color='black'">Register</a></li>
+          {% endif %}
+        </ul>
+      </div>
+    </nav>
+    
+{% endblock %}
+
+    {% block content %}
+    <div class="container">
+      {% block page_content %}
+      {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+      {% for category,message in messages %}
+      <div class="alert alert-{{category}}" role="alert">
+       <ul class="flashes">
+         <div class="message_flash">{{ message }}</div>
+       </ul>
+      </div>
+      {% endfor %}
+      {% endif %}
+      {% endwith %}
+     {% endblock %}
+    </div>
+    <div class="container">
+  <div class="row">
+    <div class="col-sm-10 col-sm-offset-1" id="logout">
+        <div class="comment-tabs">
+            <ul class="nav nav-tabs" role="tablist">
+                <li class="active"><a href="#comments-logout" role="tab" data-toggle="tab"><h4 class="reviews text-capitalize">Comments</h4></a></li>
+                {% if current_user.is_authenticated %}
+                <li><a href="#add-comment" role="tab" data-toggle="tab"><h4 class="reviews text-capitalize">Add comment</h4></a></li>
+                {% endif %}
+            </ul>            
+            <div class="tab-content">
+                <div class="tab-pane active" id="comments-logout">                
+                    <ul class="media-list">
+                      {% for comments in post.comments %}
+                      <li class="media">
+                        <a class="pull-left" href="#">
+                          <img class="media-object img-circle" src="{{url_for('static',filename='profile_pics/'+comments.author1.image_file)}}" alt="profile" width="120px" height="120px">
+                        </a>
+                        <div class="media-body">
+                          <div class="well well-lg">
+                              <ul class="media-date text-uppercase reviews list-inline">
+                                
+                              <li class="media-heading text-uppercase reviews">
+                                <h4>
+                                  <a href="{{url_for('user_account',username=comments.author1.username)}}">{{comments.author1.username}}
+                                  </a>
+                                </h4>
+
+                                <a href="#">
+                                  <li>
+                                    {{comments.date_posted}}
+                                  </li>
+                                </a>
+                                {% if current_user == comments.author1 %}
+                                <form action="{{url_for('delete_comment',post_id=comments.post_id ,comment_id=comments.id)}}" method="POST">
+                                  <input class="btn btn-danger" style="float: right;" type="submit" value="Delete">
+                                  </input>
+                                </form>
+                                {% endif %}
+
+                              </li>
+                              
+                                
+                              </ul>
+                              <p class="media-comment">
+                                {{comments.content}}
+                              </p>
+                          </div>              
+                        </div>
+                      </li>
+                      {%  endfor %}
+                    </ul> 
+                </div>
+                <div class="tab-pane" id="add-comment">
+                    <form action="" method="POST" class="form-horizontal" id="commentForm" role="form"> 
+                      {{form.csrf_token}}
+                        {{render_field(form.content,placeholder='Your Comment....')}}
+                        {{form.submit(id="btn-login",class="btn btn-success",value="Comment")}}
+                    </form>
+                </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+    {% endblock %}

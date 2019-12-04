@@ -1,0 +1,109 @@
+    {% extends "bootstrap/base.html" %}
+    {% from "macro.html" import render_field2 %}
+    {% block styles %}
+
+    <link href="{{ url_for('static',filename='styles/bootstrap.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static',filename='styles/s2.css') }}" rel="stylesheet">
+    <link rel = "icon" href =  
+"/static/images/logo.png" 
+        type = "image/x-icon"> 
+        <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    {% endblock %}
+    {% block title %}BLOGWOOSH!!{% endblock %}
+
+    {% block navbar %}
+
+    <nav class="navbar navbar-inverse">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#" style="font-family: Times New Roman;color:black;font-size: 25px" onMouseOver="this.style.color='red'" onMouseOut="this.style.color='black'">BLOGWOOSH</a>
+        </div>
+        <ul class="nav navbar-nav">
+          <li class="active"><a href="/" style="font-size: 20px" onMouseOver="this.style.color='red'" onMouseOut="this.style.color='white'">Home</a></li>
+          <li><a href="{{url_for('About')}}" style="font-family: Times New Roman;color:black;font-size: 25px" onMouseOver="this.style.color='red'" onMouseOut="this.style.color='black'">About</a></li>
+          <li><a href="{{url_for('Contact')}}" style="font-family: Times New Roman;color:black;font-size: 25px" onMouseOver="this.style.color='red'" onMouseOut="this.style.color='black'">Contact</a></li>
+          <form class="navbar-form navbar-left" action="{{url_for('home')}}" method="POST">
+         {{forms.csrf_token}}
+          {{render_field2(forms.username,placeholder="Search")}}
+          {{forms.submit(class="btn btn-default")}}
+        </form>
+        </ul>
+
+        <ul class="nav navbar-nav" id="hello">
+          {% if current_user.is_authenticated %}
+          <li><a href="{{url_for('new_post')}}" style="font-family: Times New Roman;color:black;font-size: 25px;" onMouseOver="this.style.color='red'" onMouseOut="this.style.color='black'">New Post</a></li>
+          <li><a href="{{url_for('Account')}}" style="font-family: Times New Roman;color:black;font-size: 25px" onMouseOver="this.style.color='red'" onMouseOut="this.style.color='black'">Account</a></li>
+          <li><a href="{{url_for('logout')}}" style="font-family: Times New Roman;color:black;font-size: 25px;" onMouseOver="this.style.color='red'" onMouseOut="this.style.color='black'">Logout</a></li>
+          {% else %}
+          <li><a href="/login" style="font-family: Times New Roman;color:black;font-size: 25px" onMouseOver="this.style.color='red'" onMouseOut="this.style.color='black'">Login</a></li>
+          <li><a href="/register" style="font-family: Times New Roman;color:black;font-size: 25px" onMouseOver="this.style.color='red'" onMouseOut="this.style.color='black'">Register</a></li>
+          {% endif %}
+        </ul>
+      </div>
+    </nav>
+    
+{% endblock %}
+
+    {% block content %}
+    <div class="container">
+      {% block page_content %}
+      {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+      {% for category,message in messages %}
+      <div class="alert alert-{{category}}" role="alert">
+       <ul class="flashes">
+         <div class="message_flash">{{ message }}</div>
+       </ul>
+      </div>
+      {% endfor %}
+      {% endif %}
+      {% endwith %}
+     {% endblock %}
+    </div>
+<div class="blog-section paddingTB60 ">
+<div class="container">
+  <div class="row">
+    <div class="site-heading text-center">
+            <h3>LATEST BLOGPOSTS</h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt <br> ut labore et dolore magna aliqua. Ut enim ad minim </p>
+            <div class="border"></div>
+          </div>
+  </div>
+  <div class="row text-center">
+    {% for post in posts.items %}
+         <div class="col-sm-6 col-md-4">
+              <div class="blog-box">
+                <div class="blog-box-image">
+                  <img src="https://images.pexels.com/photos/374897/pexels-photo-374897.jpeg?w=940&h=650&auto=compress&cs=tinysrgb" class="img-responsive" alt="">
+                </div>
+                <a href="#">{{post.date_posted}}</a>
+                <div>
+                <a href="{{url_for('user_posts',username=post.author.username)}}">{{post.author.username}}</a>
+                </div>
+                <div class="blog-box-content">
+                  <h4>{{post.title}}</h4>
+                  <p id='header'> {{post.content}} </p>
+                  <a href="{{url_for('post',post_id=post.id)}}" class="btn btn-default site-btn">Read More</a>
+                </div>
+              </div>
+            </div> <!-- End Col -->
+      {% endfor %}    
+    </div>
+    <div>
+      {% for page_num in posts.iter_pages(left_edge=1,right_edge=2,left_current=1,right_current=1) %} 
+          {% if page_num %}
+          {% if page_num != posts.page %}
+          <a class="btn btn-info" href="{{url_for('home',page=page_num)}}">{{page_num}}</a>
+          {% else %}
+          <a class="btn btn-success" href="{{url_for('home',page=page_num)}}">{{page_num}}</a>
+          {% endif %}
+          {% else %}
+            ...
+          {% endif %}
+      {% endfor %}  
+    </div>
+</div>
+</div>
+    {% endblock %}

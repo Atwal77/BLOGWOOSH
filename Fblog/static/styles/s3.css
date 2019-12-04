@@ -1,0 +1,71 @@
+.bg-gray {
+  background: #242424 none repeat scroll 0 0;
+  color: #ffffff;
+}
+.about_container {
+  padding: 90px 0;
+}
+section, footer {
+  float: left;
+  width: 100%;
+}
+.section_title1 {
+  font-size: 41px;
+  font-weight: bold;
+  position: relative;
+  text-transform: uppercase;
+}
+.service_tab {
+  line-height: 33px;
+  margin-bottom: 70px;
+}
+.service_tab .nav-tabs > li {
+  display: table-cell;
+  float: none;
+  margin-bottom: -1px;
+}
+
+/**service**/
+    .service_tab .nav-tabs > li.active > a, .nav-tabs > li.active > a:focus, .nav-tabs > li.active > a:hover { border-width: 0; }
+    .service_tab .nav-tabs > li > a { border: none; color: #fff; }
+        .service_tab .nav-tabs > li.active > a, .nav-tabs > li > a:hover { border: none; color: #5CA4FF!important; background: transparent; }
+        .service_tab .nav-tabs > li > a::after { content: ""; background: #5CA4FF; height: 5px; position: absolute; width: 100%; left: 0px; bottom: -2px; transition: all 250ms ease 0s; transform: scale(0); }
+		.nav-tabs > li.active > a::after, .nav-tabs > li:hover > a::after { transform: scale(1); }
+.service_tab .tab-nav > li > a::after { background: #21527d none repeat scroll 0% 0%; color: #fff; }
+.service_tab .tab-pane {
+  overflow: hidden;
+  padding: 15px 0;
+}
+.service_tab .tab-content{padding:0px}
+
+.service_tab {
+  line-height: 33px;
+  margin-bottom: 70px;
+}
+.service_tab .service_feture > li {
+  font-weight: bold;
+}
+.service_tab .car_image img {
+  margin-top: 23px;
+}
+
+
+
+
+.service_tab .nav.nav-tabs {
+  display: table;
+  text-align: center;
+  width: 100%;
+   border-bottom: 2px solid #DDD; 
+}
+.service_tab .nav-tabs > li {
+  display: table-cell;
+  float: none;
+  margin-bottom: -1px;
+}
+.service_tab .book_now1 {
+  border-color: #5CA4FF;
+  color: #5CA4FF;
+  font-size: 16px;
+  margin-top: 0;
+}

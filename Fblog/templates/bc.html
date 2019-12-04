@@ -1,0 +1,98 @@
+    {% extends "bootstrap/base.html" %}
+    {% block styles %}
+
+    <link href="{{ url_for('static',filename='styles/bootstrap.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static',filename='styles/s2.css') }}" rel="stylesheet">
+    <link rel = "icon" href =  
+"/static/images/logo.png" 
+        type = "image/x-icon"> 
+        <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    {% endblock %}
+    {% block title %}BLOGWOOSH!!{% endblock %}
+
+    {% block navbar %}
+
+    <nav class="navbar navbar-inverse">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#" style="font-family: Times New Roman;color:black;font-size: 25px" onMouseOver="this.style.color='red'" onMouseOut="this.style.color='black'">BLOGWOOSH</a>
+        </div>
+        <ul class="nav navbar-nav">
+          <li class="active"><a href="/" style="font-size: 20px" onMouseOver="this.style.color='red'" onMouseOut="this.style.color='white'">Home</a></li>
+          <li><a href="{{url_for('About')}}" style="font-family: Times New Roman;color:black;font-size: 25px" onMouseOver="this.style.color='red'" onMouseOut="this.style.color='black'">About</a></li>
+          <li><a href="{{url_for('Contact')}}" style="font-family: Times New Roman;color:black;font-size: 25px" onMouseOver="this.style.color='red'" onMouseOut="this.style.color='black'">Contact</a></li>
+        </ul>
+        <form class="navbar-form navbar-left" action="/action_page.php" method="POST">
+          <div class="form-group">
+            <input type="text" class="form-control" placeholder="Search">
+          </div>
+          <button type="submit" class="btn btn-default">Submit</button>
+        </form>
+        <ul class="nav navbar-nav" id="hello">
+          {% if current_user.is_authenticated %}
+          <li><a href="{{url_for('new_post')}}" style="font-family: Times New Roman;color:black;font-size: 25px;" onMouseOver="this.style.color='red'" onMouseOut="this.style.color='black'">New Post</a></li>
+          <li><a href="{{url_for('Account')}}" style="font-family: Times New Roman;color:black;font-size: 25px" onMouseOver="this.style.color='red'" onMouseOut="this.style.color='black'">Account</a></li>
+          <li><a href="{{url_for('logout')}}" style="font-family: Times New Roman;color:black;font-size: 25px;" onMouseOver="this.style.color='red'" onMouseOut="this.style.color='black'">Logout</a></li>
+          {% else %}
+          <li><a href="/login" style="font-family: Times New Roman;color:black;font-size: 25px" onMouseOver="this.style.color='red'" onMouseOut="this.style.color='black'">Login</a></li>
+          <li><a href="/register" style="font-family: Times New Roman;color:black;font-size: 25px" onMouseOver="this.style.color='red'" onMouseOut="this.style.color='black'">Register</a></li>
+          {% endif %}
+        </ul>
+      </div>
+    </nav>
+    
+{% endblock %}
+
+    {% block content %}
+    <!-- Header -->
+<header class="bg-primary text-center py-5 mb-4">
+  <div class="container">
+    <h1 class="font-weight-light text-white">Meet the Team</h1>
+  </div>
+</header>
+
+<!-- Page Content -->
+<div class="container">
+  <div class="row">
+    <!-- Team Member 1 -->
+    <div class="col-xl-3 col-md-6 mb-4">
+      <div class="card border-0 shadow">
+        <img src="{{ url_for('static',filename='profile_pics/atwal80.jpg') }}" class="card-img-top" alt="..." width="500px" height="500px">
+        <div class="card-body text-center">
+          <h4 class="card-title mb-0"><a href="{{url_for('user_account',username='Atwal_77')}}">Atwal_77</a></h4>
+          <div class="card-text text-black-50">Web Developer</div>
+        </div>
+      </div>
+    </div>
+    <!-- Team Member 2 -->
+    <div class="col-xl-3 col-md-6 mb-4">
+      <div class="card border-0 shadow">
+        <img src="{{ url_for('static',filename='profile_pics/atwal81.jpg') }}" class="card-img-top" alt="..." width="500px" height="500px">
+        <div class="card-body text-center">
+          <h4 class="card-title mb-0"><a href="{{url_for('user_account',username='gaurav')}}">Gaurav_K</a></h4>
+          <div class="card-text text-black-50">Web Developer</div>
+        </div>
+      </div>
+    </div>
+  <!-- /.row -->
+
+</div>
+</div>
+
+<div style="margin: 20px;">
+  <h4>
+BLOGWOOSH enables the users to create innovative and attractive
+information with photos in just few simple steps. The user just needs to
+upload some images of his choice and can also upload the information or
+can select from the given category list. This website will provide a
+personalized environment that would contain the data in motion with
+images. The main motive behind is Existing system,requires a lot of file
+work to be done. It is a time consuming system. All type of things are
+maintained manually. And a lot of paper is used so our idea is to deliver
+every things systematically without any paper work.
+</h4>
+</div>
+<!-- /.container -->
+    {% endblock %}
